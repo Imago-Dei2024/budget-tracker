@@ -1,35 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Sidebar from './Components/Layout/Sidebar';
+import Navbar from './Components/Layout/Navbar';
+import Footer from './Components/Layout/Footer';
+import Dashboard from './Pages/Dashboard';
+import BudgetPage from './Pages/BudgetPage';
+import ExpenseTrackingPage from './Pages/ExpenseTrackingPage';
+import NetWorthForecastPage from './Pages/NetWorthForecastPage';
+import { FinanceProvider } from './Context/FinanceContext';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <FinanceProvider>
+      <Router>
+        <div className="flex h-screen bg-gray-50">
+          <Sidebar />
+          <div className="flex-1 flex flex-col md:ml-64">
+            <Navbar />
+            <main className="flex-1 overflow-y-auto pt-16">
+              <Routes>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/budget" element={<BudgetPage />} />
+                <Route path="/expenses" element={<ExpenseTrackingPage />} />
+                <Route path="/forecast" element={<NetWorthForecastPage />} />
+                {/* Add a settings page route if needed */}
+                {/* <Route path="/settings" element={<SettingsPage />} /> */}
+              </Routes>
+            </main>
+            <Footer />
+          </div>
+        </div>
+      </Router>
+    </FinanceProvider>
+  );
 }
 
-export default App
+export default App;
